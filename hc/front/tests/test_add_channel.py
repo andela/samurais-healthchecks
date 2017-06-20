@@ -38,4 +38,6 @@ class AddChannelTestCase(BaseTestCase):
             self.assertContains(r, "Integration Settings", status_code=200)
 
     ### Test that the team access works
+    def test_team_access works(self):
+        pass
     ### Test that bad kinds don't work
