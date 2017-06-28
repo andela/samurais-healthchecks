@@ -13,6 +13,8 @@ class PauseTestCase(BaseTestCase):
                              HTTP_X_API_KEY="abc")
 
         ### Assert the expected status code and check's status
+        assert r.status_code == 200
+        assert check.status == "up"
 
     def test_it_validates_ownership(self):
         check = Check(user=self.bob, status="up")
@@ -25,3 +27,8 @@ class PauseTestCase(BaseTestCase):
         self.assertEqual(r.status_code, 400)
 
         ### Test that it only allows post requests
+
+        r = self.client.get(url, "", content_type="application/json",
+                             HTTP_X_API_KEY="abc")
+        assert r.status_code == 405
+
