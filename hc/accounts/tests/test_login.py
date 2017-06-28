@@ -20,18 +20,30 @@ class LoginTestCase(TestCase):
         assert r.status_code == 302
 
         ### Assert that a user was created
+        r = User.objects.get(email="alice@example.org")
+        self.assertTrue(r)
 
         # And email sent
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, 'Log in to healthchecks.io')
         ### Assert contents of the email body
+        self.assertIn('To log into healthchecks.io, please open the link below:', mail.outbox[0].body)
 
         ### Assert that check is associated with the new user
+        check.refresh_from_db()
+        assert check.user == User.objects.get(email="alice@example.org")
 
     def test_it_pops_bad_link_from_session(self):
         self.client.session["bad_link"] = True
         self.client.get("/accounts/login/")
         assert "bad_link" not in self.client.session
 
-        ### Any other tests?
+    ### Any other tests?
+    def test_user_login_with_password(self):
+        self.alice = User(username="alice", email="alice@example.org")
+        self.alice.set_password("password")
+        self.alice.save()
 
+        form = {"email": "alice@example.org", "password": "password"}
+        r = self.client.post("/accounts/login/", form)
+        self.assertRedirects(r, "/checks/")
