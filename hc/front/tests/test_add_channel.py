@@ -53,7 +53,7 @@ class AddChannelTestCase(BaseTestCase):
     def test_bad_kinds_dont_work(self):
         self.client.login(username="alice@example.org", password="password")
         kinds = ("pds", "emaild", "hfgh", "9798")
-        for frag in kinds:
-            url = "/integrations/add_%s/" % frag
+        for kind in kinds:
+            url = "/integrations/add_%s/" % kind
             r = self.client.get(url)
             assert r.status_code == 404
