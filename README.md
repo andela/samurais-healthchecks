@@ -1,5 +1,7 @@
 # healthchecks
 
+[![Build Status](https://travis-ci.org/andela/samurais-healthchecks.svg?branch=master)](https://travis-ci.org/andela/samurais-healthchecks)
+
 ![Screenshot of Welcome page](/stuff/screenshots/welcome.png?raw=true "Welcome Page")
 
 ![Screenshot of My Checks page](/stuff/screenshots/my_checks.png?raw=true "My Checks Page")
@@ -36,7 +38,7 @@ in development environment.
 
 * check out project code:
 
-        $ git clone https://github.com/andela/samurais-healthchecks
+        $ git clone https://github.com/andela/samurais-healthchecks.git
 
 * install requirements (Django, ...) into virtualenv:
 
