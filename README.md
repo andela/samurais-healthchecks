@@ -1,5 +1,7 @@
 # healthchecks
 
+[![Build Status](https://travis-ci.org/andela/samurais-healthchecks.svg?branch=master)](https://travis-ci.org/andela/samurais-healthchecks)
+
 ![Screenshot of Welcome page](/stuff/screenshots/welcome.png?raw=true "Welcome Page")
 
 ![Screenshot of My Checks page](/stuff/screenshots/my_checks.png?raw=true "My Checks Page")
@@ -25,8 +27,8 @@ in development environment.
 
 * prepare directory for project code and virtualenv:
 
-        $ mkdir -p ~/webapps
-        $ cd ~/webapps
+        $ mkdir -p ~/Projects
+        $ cd ~/Projects
 
 * prepare virtual environment
   (with virtualenv you get pip, we'll use it soon to install requirements):
@@ -36,11 +38,11 @@ in development environment.
 
 * check out project code:
 
-        $ git clone https://github.com/healthchecks/healthchecks.git
+        $ git clone https://github.com/andela/samurais-healthchecks.git
 
 * install requirements (Django, ...) into virtualenv:
 
-        $ pip install -r healthchecks/requirements.txt
+        $ pip install -r samurais-healthchecks/requirements.txt
 
 * make sure PostgreSQL server is installed and running, create
   database "hc":
@@ -50,7 +52,7 @@ in development environment.
 
 * create database tables, triggers, superuser:
 
-        $ cd ~/webapps/healthchecks
+        $ cd ~/Projects/samurais-healthchecks
         $ ./manage.py migrate
         $ ./manage.py ensuretriggers
         $ ./manage.py createsuperuser
