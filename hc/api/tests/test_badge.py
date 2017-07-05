@@ -17,6 +17,8 @@ class BadgeTestCase(BaseTestCase):
         ### Assert the expected response status code
 
         self.assertEqual(r.status_code, 400)
+        self.assertEqual(r.content.decode(), '')
+
 
     def test_it_returns_svg(self):
         sig = base64_hmac(str(self.alice.username), "foo", settings.SECRET_KEY)
@@ -28,3 +30,4 @@ class BadgeTestCase(BaseTestCase):
         ### Assert that the svg is returned
 
         self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.__getitem__("Content-Type"), "image/svg+xml")

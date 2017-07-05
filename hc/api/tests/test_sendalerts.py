@@ -40,4 +40,4 @@ class SendAlertsTestCase(BaseTestCase):
         result = Command().handle_one(check)
 
     ### Assert when Command's handle many that when handle_many should return True
-        assert result == True
+        self.assertEqual(result, True)

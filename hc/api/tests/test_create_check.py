@@ -40,8 +40,8 @@ class CreateCheckTestCase(BaseTestCase):
         self.assertEqual(doc["tags"], "bar,baz")
 
         ### Assert the expected last_ping and n_pings values
-        assert doc['n_pings'] is 0
-        assert doc['last_ping'] is None
+        self.assertEqual(doc['n_pings'], 0)
+        self.assertEqual(doc['last_ping'], None)
 
         self.assertEqual(Check.objects.count(), 1)
         check = Check.objects.get()
