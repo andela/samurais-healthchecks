@@ -52,8 +52,8 @@ class ProfileTestCase(BaseTestCase):
 
         ###Assert that the email was sent and check email content
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, 'You have been invited to join alice@example.org on {}'.
-                         format(SITE_NAME))
+        self.assertEqual(mail.outbox[0].subject,
+                         'You have been invited to join alice@example.org on {}'.format(SITE_NAME))
         self.assertIn('alice@example.org invites you to their {} account.'.format(SITE_NAME), mail.outbox[0].body)
 
     def test_add_team_member_checks_team_access_allowed_flag(self):
@@ -137,3 +137,4 @@ class ProfileTestCase(BaseTestCase):
         self.alice.profile.refresh_from_db()
         self.assertTrue(self.alice.profile.api_key)
         self.assertGreater(len(self.alice.profile.api_key), 0, msg='API key is an empty string!')
+        self.assertNotEqual(self.alice.profile.api_key, "", msg='API key is an empty string!')
