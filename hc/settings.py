@@ -153,3 +153,7 @@ if os.path.exists(os.path.join(BASE_DIR, "hc/local_settings.py")):
     from .local_settings import *
 else:
     warnings.warn("local_settings.py not found, using defaults")
+
+# Site name
+
+SITE_NAME = 'healthchecks.io'

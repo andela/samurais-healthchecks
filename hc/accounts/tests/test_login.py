@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.core import mail
 from django.test import TestCase
 from hc.api.models import Check
+from hc.settings import SITE_NAME
 
 
 class LoginTestCase(TestCase):
@@ -20,14 +21,15 @@ class LoginTestCase(TestCase):
         assert r.status_code == 302
 
         ### Assert that a user was created
+        self.assertEqual(User.objects.count(), 1)
         r = User.objects.get(email="alice@example.org")
-        self.assertTrue(r)
+        self.assertTrue(r.email, 'alice@example.org')
 
         # And email sent
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, 'Log in to healthchecks.io')
+        self.assertEqual(mail.outbox[0].subject, 'Log in to {}'.format(SITE_NAME))
         ### Assert contents of the email body
-        self.assertIn('To log into healthchecks.io, please open the link below:', mail.outbox[0].body)
+        self.assertIn('To log into {}, please open the link below:'.format(SITE_NAME), mail.outbox[0].body)
 
         ### Assert that check is associated with the new user
         check.refresh_from_db()

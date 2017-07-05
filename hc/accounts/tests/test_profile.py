@@ -3,6 +3,7 @@ from django.core import mail
 from hc.test import BaseTestCase
 from hc.accounts.models import Member
 from hc.api.models import Check
+from hc.settings import SITE_NAME
 
 
 class ProfileTestCase(BaseTestCase):
@@ -21,8 +22,8 @@ class ProfileTestCase(BaseTestCase):
 
         ### Assert that the email was sent and check email content
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, 'Set password on healthchecks.io')
-        self.assertIn('Here\'s a link to set a password for your account on healthchecks.io:', mail.outbox[0].body)
+        self.assertEqual(mail.outbox[0].subject, 'Set password on {}'.format(SITE_NAME))
+        self.assertIn('Here\'s a link to set a password for your account on {}:'.format(SITE_NAME), mail.outbox[0].body)
 
     def test_it_sends_report(self):
         check = Check(name="Test Check", user=self.alice)
@@ -33,7 +34,7 @@ class ProfileTestCase(BaseTestCase):
         ###Assert that the email was sent and check email content
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, 'Monthly Report')
-        self.assertIn('This is a monthly report sent by healthchecks.io.', mail.outbox[0].body)
+        self.assertIn('This is a monthly report sent by {}.'.format(SITE_NAME), mail.outbox[0].body)
 
     def test_it_adds_team_member(self):
         self.client.login(username="alice@example.org", password="password")
@@ -51,8 +52,9 @@ class ProfileTestCase(BaseTestCase):
 
         ###Assert that the email was sent and check email content
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, 'You have been invited to join alice@example.org on healthchecks.io')
-        self.assertIn('alice@example.org invites you to their healthchecks.io account.', mail.outbox[0].body)
+        self.assertEqual(mail.outbox[0].subject, 'You have been invited to join alice@example.org on {}'.
+                         format(SITE_NAME))
+        self.assertIn('alice@example.org invites you to their {} account.'.format(SITE_NAME), mail.outbox[0].body)
 
     def test_add_team_member_checks_team_access_allowed_flag(self):
         self.client.login(username="charlie@example.org", password="password")
@@ -134,3 +136,4 @@ class ProfileTestCase(BaseTestCase):
 
         self.alice.profile.refresh_from_db()
         self.assertTrue(self.alice.profile.api_key)
+        self.assertGreater(len(self.alice.profile.api_key), 0, msg='API key is an empty string!')
