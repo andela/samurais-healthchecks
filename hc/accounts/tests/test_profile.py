@@ -3,10 +3,10 @@ from django.core import mail
 from hc.test import BaseTestCase
 from hc.accounts.models import Member
 from hc.api.models import Check
+from hc.settings import SITE_NAME
 
 
 class ProfileTestCase(BaseTestCase):
-
     def test_it_sends_set_password_link(self):
         self.client.login(username="alice@example.org", password="password")
 
@@ -18,8 +18,12 @@ class ProfileTestCase(BaseTestCase):
         self.alice.profile.refresh_from_db()
         token = self.alice.profile.token
         ### Assert that the token is set
+        self.assertTrue(token)
 
         ### Assert that the email was sent and check email content
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject, 'Set password on {}'.format(SITE_NAME))
+        self.assertIn('Here\'s a link to set a password for your account on {}:'.format(SITE_NAME), mail.outbox[0].body)
 
     def test_it_sends_report(self):
         check = Check(name="Test Check", user=self.alice)
@@ -28,6 +32,9 @@ class ProfileTestCase(BaseTestCase):
         self.alice.profile.send_report()
 
         ###Assert that the email was sent and check email content
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject, 'Monthly Report')
+        self.assertIn('This is a monthly report sent by {}.'.format(SITE_NAME), mail.outbox[0].body)
 
     def test_it_adds_team_member(self):
         self.client.login(username="alice@example.org", password="password")
@@ -41,10 +48,13 @@ class ProfileTestCase(BaseTestCase):
             member_emails.add(member.user.email)
 
         ### Assert the existence of the member emails
-
         self.assertTrue("frank@example.org" in member_emails)
 
         ###Assert that the email was sent and check email content
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject,
+                         'You have been invited to join alice@example.org on {}'.format(SITE_NAME))
+        self.assertIn('alice@example.org invites you to their {} account.'.format(SITE_NAME), mail.outbox[0].body)
 
     def test_add_team_member_checks_team_access_allowed_flag(self):
         self.client.login(username="charlie@example.org", password="password")
@@ -108,3 +118,23 @@ class ProfileTestCase(BaseTestCase):
         self.assertNotContains(r, "bobs-tag.svg")
 
     ### Test it creates and revokes API key
+    def test_it_creates_and_revokes_api_key(self):
+        self.client.login(username="alice@example.org", password="password")
+
+        # revoke api key
+        form = {"revoke_api_key": "1"}
+        r = self.client.post("/accounts/profile/", form)
+        assert r.status_code == 200
+
+        self.alice.profile.refresh_from_db()
+        self.assertEqual(self.alice.profile.api_key, "")
+
+        # create api key
+        form = {"create_api_key": "1"}
+        r = self.client.post("/accounts/profile/", form)
+        assert r.status_code == 200
+
+        self.alice.profile.refresh_from_db()
+        self.assertTrue(self.alice.profile.api_key)
+        self.assertGreater(len(self.alice.profile.api_key), 0, msg='API key is an empty string!')
+        self.assertNotEqual(self.alice.profile.api_key, "", msg='API key is an empty string!')
