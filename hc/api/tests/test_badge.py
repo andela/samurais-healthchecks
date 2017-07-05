@@ -14,7 +14,7 @@ class BadgeTestCase(BaseTestCase):
     def test_it_rejects_bad_signature(self):
         r = self.client.get("/badge/%s/12345678/foo.svg" % self.alice.username)
 
-        ### Assert the expected response status code
+        # Assert the expected response status code
 
         self.assertEqual(r.status_code, 400)
         self.assertEqual(r.content.decode(), '')
@@ -27,7 +27,7 @@ class BadgeTestCase(BaseTestCase):
 
         r = self.client.get(url)
 
-        ### Assert that the svg is returned
+        # Assert that the svg is returned
 
         self.assertEqual(r.status_code, 200)
         self.assertEqual(r.__getitem__("Content-Type"), "image/svg+xml")
