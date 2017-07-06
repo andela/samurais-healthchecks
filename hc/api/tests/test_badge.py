@@ -6,7 +6,6 @@ from hc.test import BaseTestCase
 
 
 class BadgeTestCase(BaseTestCase):
-
     def setUp(self):
         super(BadgeTestCase, self).setUp()
         self.check = Check.objects.create(user=self.alice, tags="foo bar")
@@ -18,7 +17,6 @@ class BadgeTestCase(BaseTestCase):
 
         self.assertEqual(r.status_code, 400)
         self.assertEqual(r.content.decode(), '')
-
 
     def test_it_returns_svg(self):
         sig = base64_hmac(str(self.alice.username), "foo", settings.SECRET_KEY)
