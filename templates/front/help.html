@@ -1,0 +1,209 @@
+{% extends "front/base_help.html" %}
+{% load staticfiles %}
+
+{% block title %}Help Center - samurais-healthchecks{% endblock %}
+
+{% block docs_content %}
+
+<h3>What is healthchecks?</h3>
+<hr>
+<p>
+  Healthchecks is a cron monitoring web app that alerts you every time
+  a cron job fails to execute. <br>
+  To monitor this, you’re provided with an address that
+  your cron job is supposed to ping each time it executes. <br>
+  If a cron job fails to ping that address within the timeframe you have specified,
+  healthchecks sends you an alert via email, slack or a number of other
+  notification channels we’ve integrated.
+</p>
+
+<a name="faqs"></a>
+<h2>FAQs</h2>
+<hr>
+
+<a name="why-healthchecks"></a>
+<h3>Do I need this?</h3>
+<p>
+  Healthchecks will alert you when a cron job fails, so that you can fix it before
+  it becomes a problem.<br>
+  Like that important backup you've set to execute every Sunday afternoon, or that
+  series of automatic downloads you have happening every night.<br>
+</p>
+
+<a name="jobs-already-send-emails"></a>
+<h3>I could just check my email to see whether a email cron job executed or not, right?</h3>
+<p>
+  Wrong. Checking your email and finding one from your cron job when it is successful is easy,
+  but it can be difficult to tell when your jobs fail.<br>
+  How do you confirm that an email was not sent when your inbox has thousands?<br>
+  Healthchecks solves this problem by sending you a notification if your job hasn't executed when it should.<br>
+  A second notification is also sent once your cron job begins executing again.<br>
+</p>
+
+<a name="getting-started"></a>
+<h3>How do I get started?</h3>
+<p>
+  On the health checks homepage, click on Log In.
+</p>
+<br><br>
+  <img
+      class="img-responsive"
+      src="{% static 'img/Homepage.png' %}"
+      srcset="{% static 'img/Homepage.png'%} 1x"
+      alt="Homepage" />
+<br><br>
+<p>
+  You’ll be asked to provide an email address via which we can notify you once a cron job is “late”.
+</p>
+<br><br>
+  <img
+      class="img-responsive"
+      src="{% static 'img/Log In.png' %}"
+      srcset="{% static 'img/Log In.png'%} 1x"
+      alt="Log In" />
+<br><br>
+  <img
+      class="img-responsive"
+      src="{% static 'img/Log In Email.png' %}"
+      srcset="{% static 'img/Log In Email.png'%} 1x"
+      alt="Log In Email" />
+<br><br>
+<p>
+  A log in link will be sent to your inbox. Click on the green “Log In” button, and you’ll be redirected to your User Dashboard.
+</p>
+<br><br>
+  <img
+      class="img-responsive"
+      src="{% static 'img/Email button.png' %}"
+      srcset="{% static 'img/Email button.png'%} 1x"
+      alt="Email button" />
+<p>
+  To add a check, simply click on “Add Check”. This will create a default check, which you can proceed to edit.
+  Click on “unnamed” to edit the name.
+</p>
+<br><br>
+  <img
+      class="img-responsive"
+      src="{% static 'img/Dashboard.png' %}"
+      srcset="{% static 'img/Dashboard.png'%} 1x"
+      alt="Dashboard" />
+<br><br>
+  <img
+      class="img-responsive"
+      src="{% static 'img/Unnamed Check.png' %}"
+      srcset="{% static 'img/Unnamed Check.png'%} 1x"
+      alt="Unnamed Check" />
+<br><br>
+  <img
+      class="img-responsive"
+      src="{% static 'img/Name A Check.png' %}"
+      srcset="{% static 'img/Name A Check.png'%} 1x"
+      alt="Name A Check" />
+<br><br>
+<p>
+  Hover over the check to reveal a grey settings button, and click on it to view a log of pings (which should currently be empty),
+  to remove a check, but more importantly, to view “Usage Examples”.
+</p>
+<br><br>
+  <img
+      class="img-responsive"
+      src="{% static 'img/Reveal Settings Button.png' %}"
+      srcset="{% static 'img/Reveal Settings Button.png'%} 1x"
+      alt="Reveal Settings Button" />
+<br><br>
+  <img
+      class="img-responsive"
+      src="{% static 'img/Settings.png' %}"
+      srcset="{% static 'img/Settings.png'%} 1x"
+      alt="Settings" />
+<br><br>
+  <img
+      class="img-responsive"
+      src="{% static 'img/Usage Examples.png' %}"
+      srcset="{% static 'img/Usage Examples.png'%} 1x"
+      alt="Usage Examples" />
+<br><br>
+<p>
+  The easiest usage example would be the one under “crontab”, but feel free to copy any of the others
+  depending on which tool you are using to set up your cron jobs.<br><br>
+  See <a href="http://www.techradar.com/how-to/computing/apple/terminal-101-creating-cron-jobs-1305651">here</a> for how
+  to set up cron jobs.<br><br>
+  Back to our check, click under “Period” to configure how often you want Healthchecks to monitor the “health” of your cron jobs.
+</p>
+<br><br>
+  <img
+      class="img-responsive"
+      src="{% static 'img/period_grace.png' %}"
+      srcset="{% static 'img/period_grace.png'%} 1x"
+      alt="Period and Grace" />
+<br><br>
+<p>
+  E.g. for a period of one hour and a grace time of 10 minutes, health checks will expect your cron job to ping the
+  url you copied into cron tab every hour. The job will be late if it pings the address after an hour, but before the
+  10 minute grace time elapses.
+  If both the period plus grace time elapse before a ping has been received, then the job is late, and healthchecks
+  will send you an alert.
+</p>
+
+<a name="notification-channels"></a>
+<h3>How do I set up Notification channels?</h3>
+<p>
+  Notification of a failed check will primarily be via the email used to log in until other Integrations have been added.
+  Under the Integrations Tab, click on “Add Integration” next to the medium you wish to add.
+  This will redirect you to a screen with step by step instructions after which you should be able to receive notifications via this medium.
+</p>
+
+<a name="unexpected-alerts"></a>
+<h3>Healthchecks sent me an alert when I didn't expect it</h3>
+<p>
+  If you receive an alert you didn't expect — if you know your job did not run too long for example — the first thing to do
+  is view your recent ping history in your dashboard. Usually the explanation can be found in the history, but please
+  hit us up on the chat if you have any questions.
+</p>
+
+<a name="check-failed-why"></a>
+<h3>How do I find out why my check failed?</h3>
+<p>
+  Presently, you cannot. You have to manually investigate the causes from the machine you set up
+  your cron jobs on.
+  Stay tuned for this feature.
+</p>
+
+<a name="check_status"></a>
+<h3>How can I check the status of my checks?</h3>
+<p>
+  The badge next to each check on your dashboard indicates its current status.
+  If the check's URL hasn't been hit yet, the badge will be gray.
+  The badge will turn green after your job ping's its URL.
+  If the check is late, the badge will turn orange. A check that is down will be red.
+</p>
+
+<a name="reorganise-checks"></a>
+<h3>Can I re-organise checks in my dashboard?</h3>
+<p>
+  By default, the dashboard displays checks alphabetically. However, we recommend that you tag each check.
+  This makes it easier to search through them and/or categorize them.
+</p>
+
+<a name="change-periods"></a>
+<h3>Can I change a check's interval?</h3>
+<p>
+  Easy. Head to your checks page, and choose a new interval.
+</p>
+
+<a name="delete-check"></a>
+<h3>How do I delete a snitch?</h3>
+<p>
+  Click the settings icon next to your check, then "Remove".
+</p>
+
+<hr>
+
+<h3>Can't find the answer to your question?</h3>
+
+<p>
+  Chat with us by clicking on the chat icon in the bottom right-hand corner
+  of any healthchecks page. We're always ready to help!
+</p>
+
+{% endblock %}
