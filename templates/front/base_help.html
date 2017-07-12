@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-2">
+
+    <ul class="docs-nav">
+        <li {% if section == "home" %} class="active" {% endif %}>
+            <a href="{% url 'hc-help' %}">What is healthchecks?</a>
+        </li>
+        <li {% if section == "api" %} class="active" {% endif %}>
+            <a href="{% url 'hc-help' %}#faqs">FAQs</a>
+            <ul>
+                <li><a href="{% url 'hc-help' %}#why-healthchecks">Why Healthchecks?</a></li>
+                <li><a href="{% url 'hc-help' %}#jobs-already-send-emails">Convince Me Again</a></li>
+                <li><a href="{% url 'hc-help' %}#getting-started">Getting Started</a></li>
+                <li><a href="{% url 'hc-help' %}#notification-channels">Setting up Notifications</a></li>
+                <li><a href="{% url 'hc-help' %}#unexpected-alerts">Unexpected Alerts</a></li>
+                <li><a href="{% url 'hc-help' %}#check-failed-why">Why Did My Check Fail?</a></li>
+                <li><a href="{% url 'hc-help' %}#check_status">Check My Check Status</a></li>
+                <li><a href="{% url 'hc-help' %}#reorganise-checks">Re-Organise My Checks</a></li>
+                <li><a href="{% url 'hc-help' %}#change-periods">Change Check Intervals</a></li>
+                <li><a href="{% url 'hc-help' %}#delete-check">Delete A Check</a></li>
+            </ul>
+        </li>
+    </ul>
+
+    </div>
+    <div class="col-sm-10">
+        {% block docs_content %}
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}
