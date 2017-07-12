@@ -33,7 +33,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'compressor',
     'djmail',
-
+    'analytical',
     'hc.accounts',
     'hc.api',
     'hc.front',
@@ -134,6 +134,8 @@ STATICFILES_FINDERS = (
 COMPRESS_OFFLINE = True
 
 EMAIL_BACKEND = "djmail.backends.default.EmailBackend"
+
+OLARK_SITE_ID = '8534-291-10-7803'
 
 # Slack integration -- override these in local_settings
 SLACK_CLIENT_ID = None
